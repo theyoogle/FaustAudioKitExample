@@ -15,6 +15,7 @@ class Conductor {
     init() {
         myOsc.freq = 440
         myOsc.gain = 1.0
+        myOsc.gate = 1.0
         
         engine.output = myOsc
         myOsc.start()

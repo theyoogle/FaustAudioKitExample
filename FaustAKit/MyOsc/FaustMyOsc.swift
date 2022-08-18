@@ -26,13 +26,19 @@ public class FaustMyOsc: Node, AudioUnitContainer, Toggleable {
 
 	@Parameter public var gain: AUValue
 
+	// gate
+	public static var letgateDef = NodeParameterDef(identifier: "gate", name: "gate", address: akGetParameterAddress("MyOsc_gate"), range: 0 ... 1, unit: .customUnit, flags: .default)
+
+	@Parameter public var gate: AUValue
+
 	// MARK: - Audio Unit
 	public class InternalAU: AudioUnitBase {
 		/// Get an array of the parameter definitions
 		/// - Returns: Array of parameter definitions
 		public override func getParameterDefs() -> [NodeParameterDef] {
 			[FaustMyOsc.letfreqDef,
-			FaustMyOsc.letgainDef]
+			FaustMyOsc.letgainDef,
+			FaustMyOsc.letgateDef]
 		}
 		/// Create the DSP Refence for this node
 		/// - Returns: DSP Reference
@@ -40,7 +46,7 @@ public class FaustMyOsc: Node, AudioUnitContainer, Toggleable {
 	}
 
 	// MARK: - Initialization
-	public init(_ input: Node? = nil, freq: AUValue = 440, gain: AUValue = 1) {
+	public init(_ input: Node? = nil, freq: AUValue = 440, gain: AUValue = 1, gate: AUValue = 1) {
 		super.init(avAudioNode: input?.avAudioUnitOrNode ?? AVAudioNode())
 		instantiateAudioUnit { avAudioUnit in
 			self.avAudioUnit = avAudioUnit
@@ -50,6 +56,7 @@ public class FaustMyOsc: Node, AudioUnitContainer, Toggleable {
 			self.stop()
 			self.freq = freq
 			self.gain = gain
+			self.gate = gate
 		}
 	}
 }
